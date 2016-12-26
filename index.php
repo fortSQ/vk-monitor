@@ -13,8 +13,8 @@ $rangeNameList = ['Сегодня', 'Вчера', 'Позавчера'];
 $printData = [];
 
 foreach ($settings['user_id'] as $userId) {
-    $datetime = new DateTime();
     foreach ($rangeNameList as $dayCount => $rangeName) {
+        $datetime = new DateTime();
         $printData[$rangeName][$userId] = $db->selectFromTable($userId, $datetime->modify("-{$dayCount} days"));
     }
 }
