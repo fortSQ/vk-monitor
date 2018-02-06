@@ -1,6 +1,8 @@
 <?php
 
 class VK {
+    const VERSION = '5.52'; # версия API-шки ВКонтакте
+
     private $clientId;
     private $accessToken;
 
@@ -33,13 +35,15 @@ class VK {
             'user_ids'      => implode(',', $userIdList),
             'fields'        => implode(',', $fields),
             'access_token'  => $this->accessToken,
+            'v'             => self::VERSION,
         ]);
         $url = "https://api.vk.com/method/users.get?{$getParams}";
+
         $response = json_decode(file_get_contents($url), true)['response'];
         
         $result = [];
         foreach ($response as $user) {
-            $result[$user['uid']] = [
+            $result[$user['id']] = [
                 'is_online' => (bool) $user['online'],
                 'is_mobile' => isset($user['online_mobile']),
             ];
